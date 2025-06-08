@@ -90,7 +90,7 @@ COVID-19 Trends and Impact Survey (CTIS), Carnegie Mellon University and Faceboo
 
 ---
 
-## 🛠 Built With
+## Built With
 
 - Python, Pandas, NumPy
 - scikit-learn, PyTorch
