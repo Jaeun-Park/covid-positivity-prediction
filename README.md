@@ -42,11 +42,25 @@ These findings demonstrate that combining behavioral insights with spatio-tempor
 
 ## Exploratory Data Analysis
 
-I examined feature correlations, missing data, and time trends before modeling.
+I examined missing data, feature correlations and time trends before modeling.
 
-![Correlation Matrix](results/EDA_correlation_matrix.png)
-![Missing Data Overview](results/EDA_missing_values_missingno_matrix.png)
-![Positivity Trend Over Time](results/EDA_trend_plot.png)
+The target variable has 21,632 missing values (84%). After dropping these rows, 3,994 rows remained. For the other columns, I used median imputation, which is a robust approach when the missing data are relatively randomly distributed. Based on the Missingno matrix and heatmap, I did not observe strong patterns or clusters of missingness; therefore, I employed median imputation.
+
+<img src="results/EDA_missing_values_missingno_matrix.png" width="500"/>
+
+After addressing missingness, I conducted a correlation analysis to manage multicollinearity. Highly correlated feature pairs (correlations  above 0.8) were identified:
+
+1) 	smoothed_wvaccine_likely_who and smoothed_wvaccine_likely_govt_health
+2) 	smoothed_wothers_masked and smoothed_wwearing_mask
+
+Among the pair, the features with higher missing values (smoothed wvaccine likely govt health, smoothed wwearing mask) were dropped. 
+
+<img src="results/EDA_correlation_matrix.png" width="500"/>
+
+For feature engineering, we used lag Analysis and incorporated state information. Lag analysis revealed that some features, such as public transit use, showed stronger correlation with COVID-19 positivity rates at positive lags, aligning with the intuition that exposure leads to infection after a delay. Based on these results, lagged features were added into the modeling pipeline.
+
+<img src="results/EDA_trend_plot.png" width="500"/>
+<img src="results/EDA_lagged_correlation.png" width="500"/>
 
 ---
 
@@ -70,8 +84,7 @@ I examined feature correlations, missing data, and time trends before modeling.
   - MAE: 0.02  
   - Strengths: Nonlinear modeling, high accuracy, robust to noise
 
-
-![Actual vs. Predicted - Best Model](results/BestModel_actual_vs_predicted_randomforest_exclude_spatial_lag.png)
+<img src="results/BestModel_actual_vs_predicted_randomforest_exclude_spatial_lag.png" width="500"/>
 
 **Runner-Up:**  
 - **STAR(2)** (Spatio-Temporal Autoregressive model with two lags)
@@ -103,7 +116,7 @@ I examined feature correlations, missing data, and time trends before modeling.
 
 The Random Forest model reveals which features most influence prediction outcomes.
 
-![Feature Importance](results/BestModel_feature_importance_randomforest_exclude_spatial_lag.png)
+<img src="results/BestModel_feature_importance_randomforest_exclude_spatial_lag.png" width="250"/>
 
 ---
 
