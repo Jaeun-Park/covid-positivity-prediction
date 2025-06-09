@@ -84,8 +84,6 @@ For feature engineering, we used lag Analysis and incorporated state information
   - MAE: 0.02  
   - Strengths: Nonlinear modeling, high accuracy, robust to noise
 
-<img src="results/BestModel_actual_vs_predicted_randomforest_exclude_spatial_lag.png" width="500"/>
-
 **Runner-Up:**  
 - **STAR(2)** (Spatio-Temporal Autoregressive model with two lags)
   - R² = 0.999
@@ -116,7 +114,7 @@ For feature engineering, we used lag Analysis and incorporated state information
 
 The Random Forest model reveals which features most influence prediction outcomes.
 
-<img src="results/BestModel_feature_importance_randomforest_exclude_spatial_lag.png" width="250"/>
+<img src="results/BestModel_feature_importance_randomforest_exclude_spatial_lag.png" width="500"/>
 
 ---
 
