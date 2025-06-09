@@ -12,6 +12,24 @@ This project explores spatial and temporal modeling techniques to predict county
 - Provide insights for **public health policy** and early intervention
 
 ---
+## Problem & Findings
+
+**Problem**
+
+COVID-19 positivity rates vary across both time and geography, driven by behavioral and structural factors. Traditional forecasting models often overlook spatial dependencies, limiting their usefulness for regional public health planning. This project tackles the challenge of predicting county-level positivity rates by integrating temporal trends and spatial spillover effects into the modeling process.
+
+**Findings**
+
+Incorporating spatial-temporal features significantly improved predictive performance:
+- STAR(2) (Spatio-Temporal Autoregressive model with two lags) outperformed baseline models in both R² and RMSE.
+- Behavioral signals—such as mask usage, public activity, and mobility—were highly predictive of case surges.
+-	Random Forest with moving average imputation achieved R² = 0.998, outperforming MLP and spatial lag regression.
+- Key features included lagged vaccination rates, COVID-like illness (CLI) indicators, and mobility trends.
+- Notably, tree-based models performed well without requiring explicit spatial lags, suggesting they can implicitly capture regional transmission dynamics.
+
+These findings demonstrate that combining behavioral insights with spatio-temporal modeling can yield interpretable and highly accurate forecasts, offering actionable tools for pandemic response planning.
+
+---
 
 ## Dataset
 
@@ -19,6 +37,16 @@ This project explores spatial and temporal modeling techniques to predict county
 - **Time Period**: January 7 – February 12, 2021
 - **Scope**: 25,626 county-level daily records from across the U.S.
 - **Features**: 19 variables covering health behaviors, beliefs, and outcomes
+
+---
+
+## Exploratory Data Analysis
+
+I examined feature correlations, missing data, and time trends before modeling.
+
+![Correlation Matrix](results/EDA_correlation_matrix.png)
+![Missing Data Overview](results/EDA_missing_values_missingno_matrix.png)
+![Positivity Trend Over Time](results/EDA_trend_plot.png)
 
 ---
 
@@ -35,15 +63,30 @@ This project explores spatial and temporal modeling techniques to predict county
 
 ## Performance Summary
 
-**Best Model (Test Set):**  
-- **Random Forest**
+**Best Performing Model:**  
+- **Random Forest** (with moving average imputation)  
   - R²: 0.998  
   - RMSE: 0.09  
   - MAE: 0.02  
   - Strengths: Nonlinear modeling, high accuracy, robust to noise
 
+
+![Actual vs. Predicted - Best Model](results/BestModel_actual_vs_predicted_randomforest_exclude_spatial_lag.png)
+
 **Runner-Up:**  
-- **Spatial Lag Regression** (R² = 0.999) — More interpretable, but assumes linearity
+- **STAR(2)** (Spatio-Temporal Autoregressive model with two lags)
+  - R² = 0.999
+  - More interpretable, but assumes linearity
+
+---
+
+## Model Comparison (Actual vs Predicted)
+
+| MLP | Spatial Lag | Random Forest |
+|-----|-------------|----------------|
+| <img src="results/actual_vs_predicted_MLP.png" width="250"/> | <img src="results/actual_vs_predicted_spatial_lag1.png" width="250"/> | <img src="results/actual_vs_predicted_randomforest_movingavg.png" width="250"/> |
+
+
 
 ---
 
@@ -56,15 +99,11 @@ This project explores spatial and temporal modeling techniques to predict county
 
 ---
 
-## File Structure
-covid-positivity-prediction/
-│
-├── data/ # CSVs used in the analysis
-├── notebooks/ # Jupyter notebooks per model
-├── results/ # Charts, metrics, and outputs
-├── README.md # Project documentation
-├── requirements.txt # Python dependencies
-└── .gitignore # Ignore data checkpoints, logs, etc.
+## Feature Importance
+
+The Random Forest model reveals which features most influence prediction outcomes.
+
+![Feature Importance](results/BestModel_feature_importance_randomforest_exclude_spatial_lag.png)
 
 ---
 
@@ -81,6 +120,20 @@ covid-positivity-prediction/
 - Integrate real-time data streams
 - Use **LSTM** or **Transformer** architectures for dynamic sequence modeling
 - Expand spatial granularity and refine adjacency definitions
+
+---
+
+## File Structure
+```
+covid-positivity-prediction/
+│
+├── data/ # CSVs used in the analysis
+├── notebooks/ # Jupyter notebooks per model
+├── results/ # Charts, metrics, and outputs
+├── README.md # Project documentation
+├── requirements.txt # Python dependencies
+└── .gitignore # Ignore data checkpoints, logs, etc.
+```
 
 ---
 
